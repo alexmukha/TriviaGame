@@ -22,6 +22,7 @@
 
     <!-- We'll be dumping our JSON contents in here -->
     <div id="movie-view"></div>
+    <div id="question"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -50,15 +51,34 @@
       url: queryURL,
       method: "GET"
     }).then(function(response) {
-      $("#movie-view").html(JSON.stringify(response, null, 10));
+    //   $("#movie-view").html(JSON.stringify(response, null, 10));
       console.log(response.results[0].category);
-      console.log(response.results[0].type);
-      console.log(response.results[0].difficulty);
+      var category = response.results[0].category;
+      var $category = $('<div><b> Rated:</b> '+category+ '</div>');
+
+    //   console.log(response.results[0].type);
+    //   var type = response.results[0].type;
+    //   console.log(response.results[0].difficulty);
+
       console.log(response.results[0].question);
+      var question = response.results[0].question;
+      var $question = $('<div><b> Rated:</b> '+question+ '</div>');
+
       console.log(response.results[0].correct_answer);
+      var answer0 = response.results[0].correct_answer;
+      var $answer0 = $('<div><b> Rated:</b> '+answer0+ '</div>');
+
       console.log(response.results[0].incorrect_answers[0]);
+      var answer1 = response.results[0].incorrect_answers[0];
+      var $answer1 = $('<div><b> Rated:</b> '+answer1+ '</div>');
+
       console.log(response.results[0].incorrect_answers[1]);
+      var answer2 = response.results[0].incorrect_answers[1];
+      var $answer2 = $('<div><b> Rated:</b> '+answer2+ '</div>');
+
       console.log(response.results[0].incorrect_answers[2]);
+      var answer3 = response.results[0].incorrect_answers[2];
+      var $answer3 = $('<div><b> Rated:</b> '+answer3+ '</div>');
 
 
     })
