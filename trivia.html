@@ -26,7 +26,17 @@
     <script type="text/javascript">
 
     ///////////////////////////////////////////////////////////////////////////
-
+    function init(){
+        var $start = $('<button>Start</button>');
+        $start.on('click', showQuestion);
+        $app.empty();
+        $app.append($start);
+        correct = 0;
+        incorrect = 0;
+        questionIndex = 0;
+        
+    
+    }
     // This .on("click") function will trigger the AJAX Call
       $("#start").on("click", function(event) {
         $(".start").html("Next").removeClass("start").addClass("next");

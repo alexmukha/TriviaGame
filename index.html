@@ -18,6 +18,7 @@
             <p>This is a very random trivia questions game. Please get your mind ready for this game, because nobody knows what questions are going to be asked and on what topic. All of the questions are going to be straight from the internet and in the random format. </p>
             <!-- <div id="timer"></div> -->
            <h3><span id="timer" class="normal">&nbsp;</span></h3>
+           <button id="start" class="btn" onclick="start">Start</button>
         </div>
     
     
@@ -25,13 +26,28 @@
     </div>
     <script>
     $(document).ready(function() {
-  var timeLeft = 10;
-  var timerId = setInterval(countdown, 1000);
-  
-  
+    var timeLeft = 10;
+    var correct = 0;
+    var incorrect = 0;
+    var questionNum = 0;
+    var amount = 15;
+    var questions = [];
+    var answers = [];
+    // var timerId = clearInterval(countdown);
+    // var timerId = setInterval(countdown, 1000);
+
+    
+    // $("#start").on('click', start());
+
+    // var timerId = setInterval(countdown, 1000);
+
   function start(){
-    var $start = $('<button class="btn">Start</button>');
-    $start.on('click', countdown);
+      console.log("start funct");
+      var timerId = setInterval(countdown, 1000);
+
+
+    // var $start = $('<button class="btn">Start</button>');
+    // $start.on('click', countdown);
     // $countdown.preventDefault();
     // $app.empty();
     // $app.append($start);
@@ -40,11 +56,9 @@
     // questionIndex = 0;
     // clearTimeout(timerId);
     // timeLeft = 0;
-    $("#timer").append($start);
+
+    // $("#timer").append($start);
 }
-start();
-
-
 
 
   function checkResults() {
@@ -54,6 +68,8 @@ start();
 
   
   function countdown() {
+    var timerId = setInterval(countdown, 1000);
+
       if (timeLeft == -0) {
           clearTimeout(timerId);
           checkResults();
@@ -70,7 +86,7 @@ start();
 
 });
     </script>
-    <!-- <script type="text/javascript" src="assets/javascript/game.js"></script> -->
+<script type="text/javascript" src="assets/javascript/000000game.js"></script>
 
 </body>
 </html>
