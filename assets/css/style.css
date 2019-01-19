@@ -1,0 +1,8 @@
+.normal {
+color: black;
+}
+
+.warning {
+    color: red;
+    font-weight: bold;
+}
