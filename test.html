@@ -20,6 +20,9 @@
            <h3><span id="timer" class="btn-primary normal">Are you ready??<br>Press ==> Start <== PRESSS</span></h3>
           <button id="btnnext" class="btn">next</button>&nbsp;&nbsp;<button id="btnstop" class="btn">stop</button>
         </div>
+        <div id="questions">
+
+        </div>
     
     
     
@@ -29,10 +32,15 @@
         //var correct = 0;
         //var incorrect = 0;
         //var questionNum = 0;
-        //var amount = 15;
-        //var questions = [];
-        //var answers = [];
+        var amount = 15;
+        var questions = [];
+        var answers = [];
         var timerId;
+        var gameInProgress = false;
+
+
+        var queryURL = "https://opentdb.com/api.php?amount="+amount+"&difficulty=easy&type=multiple";
+        var $div = $("<div>");
 
     $("#timer").on("click", function () {
         start();
@@ -40,11 +48,13 @@
     })
 
     $("#btnnext").on("click", function () {
-      timeLeft = -1;
+      timeLeft = 0;
+      $("#timer").empty();
     })
 
     $("#btnstop").on("click", function () {
-      
+        timeLeft = 0;
+      $("#timer").empty();
      
     })
 
@@ -59,10 +69,13 @@
     }
 
     function start(){
-      console.log("start funct");
+        gameInProgress = true;
+        console.log("start funct");
       var timerId = setInterval(countdown, 1000);
+      console.log(gameInProgress);
       
     }
+
     function countdown() {
       if (timeLeft <= -0) {
           clearTimeout(timerId);
@@ -76,12 +89,81 @@
       }
     }
 
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response) {
+
+    function shuffle(array) {
+            var temp;
+            var i = array.length
+            while (i) {
+                var m = Math.floor(Math.random() * i--);
+                temp = array[i];
+                array[i] = array[m];
+                array[m] = temp; };
+            return array; };
+
+for (var i = 0; i < response.results.length; i++) {
+questions.push(response.results[i]);
+answers.push(questions[i].incorrect_answers);
+answers[i].push(questions[i].correct_answer);
+shuffle(answers[i]);
+}
 
 
+
+    //   console.log(response.results[0].category);
+      var category = response.results[0].category;
+      var $category = $('<div><b>Category:</b> '+category+ '</div>');
+      $div.append($category);
+
+    //   console.log(response.results[0].type);
+    //   var type = response.results[0].type;
+    //   console.log(response.results[0].difficulty);
+
+    //   console.log(response.results[0].question);
+      var question = response.results[0].question;
+      var $question = $('<div><b>Question:</b> '+question+ '</div>');
+      $div.append($question);
+
+    //   console.log(response.results[0].correct_answer);
+      var answer0 = response.results[0].correct_answer;
+      var $answer0 = $('<div class="check" value="'+answers[0]+'"><b>Answer0:</b> '+answer0+' === '+answers[0][0]+'</div>');
+      $div.append($answer0);
+
+
+    //   console.log(response.results[0].incorrect_answers[0]);
+      var answer1 = response.results[0].incorrect_answers[0];
+      var $answer1 = $('<div class="check" value="'+answers[1]+'"><b>Answer1:</b> '+answer1+' === '+answers[0][1]+'</div>');
+      $div.append($answer1);
+
+    //   console.log(response.results[0].incorrect_answers[1]);
+      var answer2 = response.results[0].incorrect_answers[1];
+      var $answer2 = $('<div class="check" value="'+answers[2]+'"><b>Answer2:</b> '+answer2+' === '+answers[0][2]+'</div>');
+      $div.append($answer2);
+
+    //   console.log(response.results[0].incorrect_answers[2]);
+      var answer3 = response.results[0].incorrect_answers[2];
+      var $answer3 = $('<div class="check" value="'+answers[3]+'"><b>Answer3:</b> '+answer3+' === '+answers[0][3]+'</div>');
+      $div.append($answer3);
+
+      
+
+      $(".check").on("click", function(event) {
+        console.log($(".check").attr("value"));
+       return event;
+    });
+
+    console.log(questions);
+
+
+    })
+$("#questions").append($div);
   
 
 
-
+console.log(gameInProgress);
 
 }); </script>
 
