@@ -173,7 +173,13 @@
       $('#correctedAnswer').html('The correct answer was: ' + rightAnswerIndex);
 
     }
-
+      
+    if(currentQuestion == (triviaQuestions.length-1)){
+        setTimeout(scoreboard, endInt)
+      } else{
+        currentQuestion++;
+        setTimeout(newQuestion, timeInt);
+      }	
   }
 
   function scoreboard(){
