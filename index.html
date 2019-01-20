@@ -207,10 +207,20 @@
 
 
 
-  function scoreboard(){
+    function scoreboard(){
+      $('#currentQuestion').empty();
+      $('.question').empty();
+      $('#timeLeft').empty();
+      $('#message').empty();
+      $('#correctedAnswer').empty();
+      $('#gif').empty();
+    
+      $('#finalMessage').html(messages.finished);
       $('#correctAnswers').html("Correct Answers: " + correctAnswer);
       $('#incorrectAnswers').html("Incorrect Answers: " + incorrectAnswer);
       $('#unanswered').html("Unanswered: " + unanswered);
+      $('#startOverBtn').addClass('reset');
+      $('#startOverBtn').show();
       $('#startOverBtn').html('Start Over?');
     }
 </script>
