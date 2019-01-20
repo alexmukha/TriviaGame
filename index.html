@@ -73,17 +73,12 @@
         return array; };
     
     for (var i = 0; i < response.results.length; i++) {
-      delete response.results[i].difficulty;
+        delete response.results[i].difficulty;
       delete response.results[i].type;
       delete response.results[i].category;
-      
-      
       triviaQuestions.push(response.results[i]);
-      // create array just for answers
       answers.push(triviaQuestions[i].incorrect_answers);
       answers[i].push(triviaQuestions[i].correct_answer);
-      
-      // shuffle aswers array
       shuffle(answers[i]);
     }
     
@@ -185,10 +180,10 @@
     }
       
     if(currentQuestion == (triviaQuestions.length-1)){
-        setTimeout(scoreboard, endInt)
+        setTimeout(scoreboard, 3000)
       } else{
         currentQuestion++;
-        setTimeout(newQuestion, timeInt);
+        setTimeout(newQuestion, 3000);
       }	
   }
 
@@ -196,6 +191,13 @@
 
 
   }
+
+  function scoreboard(){
+      $('#correctAnswers').html("Correct Answers: " + correctAnswer);
+      $('#incorrectAnswers').html("Incorrect Answers: " + incorrectAnswer);
+      $('#unanswered').html("Unanswered: " + unanswered);
+      $('#startOverBtn').html('Start Over?');
+    }
 </script>
 </body>
 
