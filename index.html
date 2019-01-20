@@ -90,15 +90,22 @@
     });
 
 
-  $('#startBtn').on('click', function(){
-    countdown();
-      $(this).hide();
+    $('#startBtn').on('click', function(){
+     $(this).hide();
       $("#intro").hide();
       newGame();
       console.log(triviaQuestions);
     });
     
 
+    // Replay the game
+    $('#startOverBtn').on('click', function(){
+      $(this).hide();
+      newGame();
+    });
+    
+
+    
     function newGame(){
       $('#finalMessage').empty();
       $('#correctAnswers').empty();
@@ -112,7 +119,10 @@
     }
     
   function newQuestion(){
-
+    $('#message').empty();
+      $('#correctedAnswer').empty();
+      $('#gif').empty();
+      answered = true;
 
     $('#currentQuestion').html('Question #'+(currentQuestion+1)+'/'+triviaQuestions.length);
       $('.question').html('<h2>' + triviaQuestions[currentQuestion].question + '</h2>');
