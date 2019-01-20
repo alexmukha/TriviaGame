@@ -27,7 +27,6 @@
             <div id="currentQuestion"></div>
             <div id="question" class="question"></div>
         </div>
-
         <div id="answerList" class=""></div>
         <div id="finalMessage"></div>
         <div id="correctAnswers"></div>
@@ -38,11 +37,27 @@
 
     <!-- <script type="text/javascript" src="assets/javascript/game.js"></script> -->
 <script>
+  //////// FOR TESTING PURPOSES ONLY /////////////
+  var testing = true;
+  ///////// false = normal mode /////////////
+  ////////// true = fast mode /////////////
+  
   var answers = [];
     var triviaQuestions = [];
     var amount = 2;
     var queryURL = "https://opentdb.com/api.php?amount="+amount+"&difficulty=easy&type=multiple";
+  if (!testing) {
+    var timer = 15;
+    var countInt = 1000;
+    var endInt = 3000;
+    var timeInt = 3000;
+  } else {
     var timer = 5;
+    var countInt = 500;
+    var endInt = 500;
+    var timeInt = 500;
+  }
+
     var currentQuestion; 
   var correctAnswer; 
   var incorrectAnswer; 
