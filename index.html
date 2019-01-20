@@ -39,6 +39,7 @@
     var triviaQuestions = [];
     var amount = 2;
     var queryURL = "https://opentdb.com/api.php?amount="+amount+"&difficulty=easy&type=multiple";
+    var timer = 5;
     var currentQuestion; 
   var correctAnswer; 
   var incorrectAnswer; 
@@ -46,7 +47,8 @@
   var seconds; 
   var time; 
   var answered; 
-  var userSelect;var messages = {
+  var userSelect;
+  var messages = {
     correct: "That's correct!",
     incorrect: "Wrong choice.",
     endTime: "Time's up!",
@@ -79,10 +81,13 @@
   
   });
   $('#startBtn').on('click', function(){
-    newGame();
-    console.log(triviaQuestions);
-  
-  });
+    countdown();
+      $(this).hide();
+      $("#intro").hide();
+      newGame();
+      console.log(triviaQuestions);
+    });
+    
 
   function newGame(){
     $('#correctAnswers').empty();
@@ -107,11 +112,30 @@
   
   
     countdown();
-    $('.thisChoice').on('click',function(){
-      userSelect = $(this).data('value');
-      answerPage();
-    });
+      $('.thisChoice').on('click',function(){
+        userSelect = $(this).data('value');
+        clearInterval(time);
+        answerPage();
+      });
   }
+
+  function countdown(){
+      seconds = timer;
+      $('#timeLeft').html('<h3>Time Remaining: ' + seconds + '</h3>');
+      answered = true;
+      time = setInterval(showCountdown, 1000);
+    }
+
+    function showCountdown(){
+      seconds--;
+      $('#timeLeft').html('<h3>Time Remaining: ' + seconds + '</h3>');
+      if(seconds < 1){
+        clearInterval(time);
+        answered = false;
+        answerPage();
+      }
+    }
+    
 
   function answerPage(){
     $('#currentQuestion').empty();
