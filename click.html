@@ -29,71 +29,27 @@
     </div>
 <script> $(document).ready(function() {
         var timeLeft = 5;
-        //var correct = 0;
-        //var incorrect = 0;
-        //var questionNum = 0;
         var amount = 1;
         var questions = [];
         var answers = [];
         var timerId;
         var gameInProgress = false;
-
+        var answBtn = "";
+        var $button;
 
         var queryURL = "https://opentdb.com/api.php?amount="+amount+"&difficulty=easy&type=multiple";
         var $div = $("<div>");
 
-    $("#timer").on("click", function () {
-        start();
-        $("#timer").removeClass("btn-primary");
-    })
-
-    $("#btnnext").on("click", function () {
-      timeLeft = 0;
-      $("#timer").empty();
-    })
-
-    $("#btnstop").on("click", function () {
-        timeLeft = 0;
-      $("#timer").empty();
-     
-    })
-
-    function checkResults() {
-        if (timeLeft == 0) {
-    $("#timer").removeClass("warning").addClass("normal");
-    $("#timer").html("<b>Time\'s Up</b><BR>&nbsp;");
-    } else {
-        timeLeft = 0;
-        console.log(timeLeft);
-    }
-    }
-
-    function start(){
-        gameInProgress = true;
-        console.log("start funct");
-      var timerId = setInterval(countdown, 1000);
-      console.log(gameInProgress);
+                $(".check").empty();
       
-    }
 
-    function countdown() {
-      if (timeLeft <= -0) {
-          clearTimeout(timerId);
-          checkResults();
-      } else {
-        if (timeLeft < 3) {
-          $("#timer").removeClass("normal").addClass("warning");
-        }
-          $("#timer").html("You have "+timeLeft+" seconds<BR>to answer the question!");
-          timeLeft--;
-      }
-    }
 ///////////////////////////////////////////////////////////
     $.ajax({
       url: queryURL,
       method: "GET"
     }).then(function(response) {
     function shuffle(array) {
+/*
             var temp;
             var i = array.length
             while (i) {
@@ -102,14 +58,16 @@
                 array[i] = array[m];
                 array[m] = temp; };
             return array; };
-
+*/
 for (var i = 0; i < response.results.length; i++) {
 delete response.results[0].difficulty;
 delete response.results[0].type;
+questions[i].push({bookName:'mybook'});
 questions.push(response.results[i]);
 answers.push(questions[i].incorrect_answers);
 answers[i].push(questions[i].correct_answer);
-shuffle(answers[i]);
+// shuffle(answers[i]);
+console.log(questions);
 }
 //////////////////////////////////////////////////////////////
       var category = response.results[0].category;
@@ -121,31 +79,34 @@ shuffle(answers[i]);
       $div.append($question);
 
 
-
       for (var a = 0; a < answers[0].length; a++) {
         var answer = answers[0][a];
       var $answ = answers[0][a];
-      var $answer = $('<div id="'+a+'" class="check btn-info my-2" value="'+$answ+'"> '+$answ+'</div>');
+      var $answer = $('<div id="'+a+'" class="check btn btn-primary m-1" value="'+$answ+'"> '+$answ+'</div><br>');
       $div.append($answer);
+    //   console.log($answer);
       }
    
 
-      $(".check").on("click", function() {
+ 
+          for (var c = 0; c < answers.length; c++) {
+            $button = $('<button>' + answers[c] + '</button>');
+            $button.on('click', function() {
+        //  console.log($(this).text());
+       
+            });
+          }
 
-          console.log($answ);
-      
-    });
 
-    console.log(questions);
-    console.log(answers[0]);
+
+    // console.log(questions);
+    // console.log(answers[0]);
 
 
     })
-$("#questions").append($div);
   
-
-
-console.log(gameInProgress);
+    $("#questions").append($button);
+  
 
 }); </script>
 

@@ -1,92 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Trivia Game</title>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/style.css">
 
 
 </head>
+
 <body>
     <div class="container text-center">
         <div class="jumbotron">
-            <h1>TRIVIA GAME</h1>
-            <p>This is a very random trivia questions game. Please get your mind ready for this game, because nobody knows what questions are going to be asked and on what topic. All of the questions are going to be straight from the internet and in the random format. </p>
-            <!-- <div id="timer"></div> -->
-           <h3><span id="timer" class="normal">&nbsp;</span></h3>
-           <button id="start" class="btn" onclick="start">Start</button>
+            <h1 id="title">TRIVIA GAME</h1>
+            <p id="intro">This is a very random trivia questions game. When you opened this page, there was an array upload with random trivia questions on random topics. 
+            <br>Please get your mind ready for this game, because nobody
+                knows what questions are going to be asked and on what topic. <br>All of the questions are
+                straight from the internet and in the random format. <br>
+            Have fun! Good Luck!</p>
+            <h3><span id="timer" class="normal">&nbsp;</span></h3>
+            <button id="startBtn" class="btn btn-primary">Start</button>
+            <div id="timeLeft"></div>
+            <div id="currentQuestion"></div>
+            <div id="question" class="question"></div>
         </div>
-    
-    
-    
+
+        <div id="answerList" class=""></div>
+
     </div>
-    <script>
-    $(document).ready(function() {
-    var timeLeft = 10;
-    var correct = 0;
-    var incorrect = 0;
-    var questionNum = 0;
-    var amount = 15;
-    var questions = [];
-    var answers = [];
-    // var timerId = clearInterval(countdown);
-    // var timerId = setInterval(countdown, 1000);
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+    <!-- <script type="text/javascript" src="assets/javascript/game.js"></script> -->
+<script>
+  var answers = [];
+    var triviaQuestions = [];
+    var amount = 2;
+    var queryURL = "https://opentdb.com/api.php?amount="+amount+"&difficulty=easy&type=multiple";
+    var currentQuestion; 
+  var correctAnswer; 
+  var incorrectAnswer; 
+  var unanswered; 
+  var seconds; 
+  var time; 
+  var answered; 
+  var userSelect;var messages = {
+    correct: "That's correct!",
+    incorrect: "Wrong choice.",
+    endTime: "Time's up!",
+    finished: "Let's see the results."
+  }
+
+
+
+    $.ajax({
+    url: queryURL,
+    method: "GET"
+  }).then(function(response) {
     
-    // $("#start").on('click', start());
-
-    // var timerId = setInterval(countdown, 1000);
-
-  function start(){
-      console.log("start funct");
-      var timerId = setInterval(countdown, 1000);
-
-
-    // var $start = $('<button class="btn">Start</button>');
-    // $start.on('click', countdown);
-    // $countdown.preventDefault();
-    // $app.empty();
-    // $app.append($start);
-    correct = 0;
-    incorrect = 0;
-    // questionIndex = 0;
-    // clearTimeout(timerId);
-    // timeLeft = 0;
-
-    // $("#timer").append($start);
-}
-
-
-  function checkResults() {
-    $("#timer").removeClass("warning").addClass("normal");
-    $("#timer").html("Time\'s Up");
- }
-
+    function shuffle(array) {
+      var temp;
+      var i = array.length
+      while (i) {
+          var m = Math.floor(Math.random() * i--);
+          temp = array[i];
+          array[i] = array[m];
+          array[m] = temp; };
+      return array; };
   
-  function countdown() {
-    var timerId = setInterval(countdown, 1000);
-
-      if (timeLeft == -0) {
-          clearTimeout(timerId);
-          checkResults();
-      } else {
-        if (timeLeft < 5) {
-          $("#timer").removeClass("normal").addClass("warning");
-        }
-          $("#timer").html("You have "+timeLeft+" seconds to answer the question!");
-          timeLeft--;
-      }
+  for (var i = 0; i < response.results.length; i++) {
+    triviaQuestions.push(response.results[i]);
+    answers.push(triviaQuestions[i].incorrect_answers);
+    answers[i].push(triviaQuestions[i].correct_answer);
+    shuffle(answers[i]);
   }
   
+  });
+  $('#startBtn').on('click', function(){
+    newGame();
+    console.log(triviaQuestions);
+  
+  });
+
+  function newGame(){
+    $('#correctAnswers').empty();
+    $('#incorrectAnswers').empty();
+    $('#unanswered').empty();
+    correctAnswer = 0;
+    incorrectAnswer = 0;
+    unanswered = 0;
+    newQuestion();
+  }
+    
+  function newQuestion(){
 
 
-});
-    </script>
-<script type="text/javascript" src="assets/javascript/000000game.js"></script>
+   $('.question').html('<h2>' + triviaQuestions[currentQuestion].question + '</h2>');
+    for(var i = 0; i < 4; i++){
+      var choices = $('<div>');
+      choices.text(triviaQuestions[currentQuestion].incorrect_answers[i]);
+      choices.attr({'data-value': triviaQuestions[currentQuestion].incorrect_answers[i]});
+      $('#answerList').append(choices);
+    }
+  
+  
+    countdown();
+    $('.thisChoice').on('click',function(){
+      userSelect = $(this).data('value');
+      answerPage();
+    });
+  }
 
+  function answerPage(){
+    $('#currentQuestion').empty();
+    $('.thisChoice').empty(); //Clears question page
+    // $('.question').empty();
+    $('#answerList').empty();
+  
+    var rightAnswerIndex = triviaQuestions[currentQuestion].correct_answer;
+    console.log("Correct: "+rightAnswerIndex);
+    if((userSelect == rightAnswerIndex) && (answered == true)){
+      correctAnswer++;
+      $('#currentQuestion').html(messages.correct);
+    } else if((userSelect != rightAnswerIndex) && (answered == true)){
+      incorrectAnswer++;
+      // $('#message').html(messages.incorrect);
+      $('#currentQuestion').html(messages.incorrect);
+      $('#correctedAnswer').html('The correct answer was: ' + rightAnswerIndex);
+    } else{
+      unanswered++;
+      $('#message').html(messages.endTime);
+      $('#correctedAnswer').html('The correct answer was: ' + rightAnswerIndex);
+
+    }
+
+  }
+
+  function scoreboard(){
+
+
+  }
+</script>
 </body>
+
 </html>
