@@ -88,7 +88,7 @@
           timeLeft--;
       }
     }
-
+///////////////////////////////////////////////////////////
     $.ajax({
       url: queryURL,
       method: "GET"
@@ -111,7 +111,7 @@ answers.push(questions[i].incorrect_answers);
 answers[i].push(questions[i].correct_answer);
 shuffle(answers[i]);
 }
-
+//////////////////////////////////////////////////////////////
       var category = response.results[0].category;
       var $category = $('<div><b>Category:</b> '+category+ '</div>');
       $div.append($category);
@@ -123,20 +123,39 @@ shuffle(answers[i]);
       var answer0 = answers[0][0];
       var $answer0 = $('<div class="check" value="'+answers[0]+'"><b>Answer0:</b> '+answer0+' === '+answers[0][0]+'</div>');
       $div.append($answer0);
+      if (answers[0][0] === questions[0].correct_answer) {
+    console.log("This is correct");
+} else {
+    console.log("This is NOT correct");
+}
 
 
       var answer1 = answers[0][1];
       var $answer1 = $('<div class="check" value="'+answers[1]+'"><b>Answer1:</b> '+answer1+' === '+answers[0][1]+'</div>');
       $div.append($answer1);
+      if (answers[0][1] === questions[0].correct_answer) {
+    console.log("This is correct");
+} else {
+    console.log("This is NOT correct");
+}
 
       var answer2 = answers[0][2];
       var $answer2 = $('<div class="check" value="'+answers[2]+'"><b>Answer2:</b> '+answer2+' === '+answers[0][2]+'</div>');
       $div.append($answer2);
+      if (answers[0][2] === questions[0].correct_answer) {
+    console.log("This is correct");
+} else {
+    console.log("This is NOT correct");
+}
 
       var answer3 = answers[0][3];
       var $answer3 = $('<div class="check" value="'+answers[3]+'"><b>Answer3:</b> '+answer3+' === '+answers[0][3]+'</div>');
       $div.append($answer3);
-
+if (answers[0][3] === questions[0].correct_answer) {
+    console.log("This is correct");
+} else {
+    console.log("This is NOT correct");
+}
       
 
       $(".check").on("click", function(event) {
@@ -144,7 +163,7 @@ shuffle(answers[i]);
        return event;
     });
 
-    console.log(questions);
+    console.log(answers);
 
 
     })
