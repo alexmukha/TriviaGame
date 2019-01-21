@@ -16,26 +16,29 @@
     <div class="container text-center">
         <div class="jumbotron">
             <h1>TRIVIA GAME</h1>
-            <p id="intro">This is a very random trivia questions game. When you opened this page, there was an array upload with random trivia questions on random topics. 
-            <br>Please get your mind ready for this game, because nobody
+            <p id="intro">This is a very random trivia questions game. When you opened this page, there was an array
+                upload with random trivia questions on random topics.
+                <br>Please get your mind ready for this game, because nobody
                 knows what questions are going to be asked and on what topic. <br>All of the questions are
                 straight from the internet and in the random format. <br>
-            Have fun! Good Luck!</p>
-           
-            <h3><span id="timer" class="normal">&nbsp;</span></h3>
-            <button class="btn btn-primary" id="startBtn">Start</button>
+                Have fun! Good Luck!</p>
+
+            <h3><span id="timer" class="normal"></span></h3>
+            <button id="startBtn" class="btn btn-primary">Start</button>
             <div id="timeLeft"></div>
             <div id="currentQuestion"></div>
-            <div class="question"></div>
+            <div id="question" class="question"></div>
+            <h3>
+                <div id="finalMessage"></div>
+            </h3>
+            <div id="correctAnswers"></div>
+            <div id="incorrectAnswers"></div>
+            <div id="correctedAnswer"></div>
+            <div id="unanswered"></div>
+            <div id="startOverBtn" class="btn-primary mx-auto"></div>
         </div>
-        <div class="" id="answerList"></div>
+        <div id="answerList" class=""></div>
         <div id="message"></div>
-        <div id="correctedAnswer"></div>
-        <div id="finalMessage"></div>
-        <div id="correctAnswers"></div>
-        <div id="incorrectAnswers"></div>
-        <div id="unanswered"></div>
-        <div id="startOverBtn" class="btn-primary mx-auto"></div>
 
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

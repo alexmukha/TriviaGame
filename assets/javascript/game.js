@@ -1,24 +1,26 @@
 $(document).ready(function () {
   //////// FOR TESTING PURPOSES ONLY /////////////
-             var testing = true;  /////////////
+  var testing = false;  /////////////
   ///////// false = normal mode /////////////
   ////////// true = fast mode /////////////
 
   var answers = [];
   var triviaQuestions = [];
-  var amount = 2;
-  var queryURL = "https://opentdb.com/api.php?amount=" + amount + "&difficulty=easy&type=multiple";
   if (!testing) {
+    var amount = 20;
     var timer = 15;
     var countInt = 1000;
     var endInt = 3000;
     var timeInt = 3000;
   } else {
+    var amount = 2;
     var timer = 5;
     var countInt = 500;
     var endInt = 500;
     var timeInt = 500;
   }
+  var queryURL = "https://opentdb.com/api.php?amount=" + amount + "&difficulty=easy&type=multiple";
+
   var currentQuestion;
   var correctAnswer;
   var incorrectAnswer;
@@ -125,18 +127,17 @@ $(document).ready(function () {
     $('.thisChoice').empty(); //Clears question page
     $('#answerList').empty();
     var rightAnswerIndex = triviaQuestions[currentQuestion].correct_answer;
-    console.log("Correct: " + rightAnswerIndex);
     if ((userSelect == rightAnswerIndex) && (answered == true)) {
       correctAnswer++;
       $('#currentQuestion').html(messages.correct);
     } else if ((userSelect != rightAnswerIndex) && (answered == true)) {
       incorrectAnswer++;
       $('#currentQuestion').html(messages.incorrect);
-      $('#correctedAnswer').html('The correct answer was: ' + rightAnswerIndex);
+      $('#correctedAnswer').html('<h3>The correct answer was: ' + rightAnswerIndex + '</h3>');
     } else {
       unanswered++;
       $('#message').html(messages.endTime);
-      $('#correctedAnswer').html('The correct answer was: ' + rightAnswerIndex);
+      $('#correctedAnswer').html('<h3>The correct answer was: ' + rightAnswerIndex + '</h3>');
       answered = true;
     }
     if (currentQuestion == (triviaQuestions.length - 1)) {
@@ -153,9 +154,9 @@ $(document).ready(function () {
     $('#message').empty();
     $('#correctedAnswer').empty();
     $('#finalMessage').html(messages.finished);
-    $('#correctAnswers').html("Correct Answers: " + correctAnswer);
-    $('#incorrectAnswers').html("Incorrect Answers: " + incorrectAnswer);
-    $('#unanswered').html("Unanswered: " + unanswered);
+    $('#correctAnswers').html("Correct Answers: <h3>" + correctAnswer + '</h3>');
+    $('#incorrectAnswers').html("Incorrect Answers: <h3>" + incorrectAnswer + '</h3>');
+    $('#unanswered').html("Unanswered: <h3>" + unanswered + '</h3>');
     $('#startOverBtn').addClass('reset thisChoice btn btn-primary');
     $('#startOverBtn').show();
     $('#startOverBtn').html('Start Over?');
