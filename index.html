@@ -32,13 +32,16 @@
         <div id="correctAnswers"></div>
         <div id="incorrectAnswers"></div>
         <div id="unanswered"></div>
+        <div id="startOverBtn" class="btn-primary mx-auto"></div>
+
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <!-- <script type="text/javascript" src="assets/javascript/game.js"></script> -->
 <script>
+
   //////// FOR TESTING PURPOSES ONLY /////////////
-  var testing = true;
+            var testing = true;
   ///////// false = normal mode /////////////
   ////////// true = fast mode /////////////
   
@@ -57,25 +60,23 @@
     var endInt = 500;
     var timeInt = 500;
   }
-
-    var currentQuestion; 
-  var correctAnswer; 
-  var incorrectAnswer; 
-  var unanswered; 
-  var seconds; 
-  var time; 
-  var answered; 
-  var userSelect;
-  var messages = {
-    correct: "That's correct!",
-    incorrect: "Wrong choice.",
-    endTime: "Time's up!",
-    finished: "Let's see the results."
-  }
-
-
-
-  $.ajax({
+  var currentQuestion; 
+    var correctAnswer; 
+    var incorrectAnswer; 
+    var unanswered; 
+    var seconds; 
+    var time; 
+    var answered; 
+    var userSelect;
+    
+    var messages = {
+      correct: "That's correct!",
+      incorrect: "Wrong choice.",
+      endTime: "Time's up!",
+      finished: "Let's see the results."
+    }
+    
+    $.ajax({
       url: queryURL,
       method: "GET"
     }).then(function(response) {
@@ -91,7 +92,7 @@
         return array; };
     
     for (var i = 0; i < response.results.length; i++) {
-        delete response.results[i].difficulty;
+      delete response.results[i].difficulty;
       delete response.results[i].type;
       delete response.results[i].category;
       triviaQuestions.push(response.results[i]);
@@ -101,23 +102,19 @@
     }
     
     });
-
+    
 
     $('#startBtn').on('click', function(){
-     $(this).hide();
+      $(this).hide();
       $("#intro").hide();
       newGame();
       console.log(triviaQuestions);
     });
     
-
-    // Replay the game
     $('#startOverBtn').on('click', function(){
       $(this).hide();
       newGame();
     });
-    
-
     
     function newGame(){
       $('#finalMessage').empty();
@@ -131,38 +128,38 @@
       newQuestion();
     }
     
-  function newQuestion(){
-    $('#message').empty();
+    function newQuestion(){
+      $('#message').empty();
       $('#correctedAnswer').empty();
-      $('#gif').empty();
+      
       answered = true;
-
-    $('#currentQuestion').html('Question #'+(currentQuestion+1)+'/'+triviaQuestions.length);
+      
+      $('#currentQuestion').html('Question #'+(currentQuestion+1)+'/'+triviaQuestions.length);
       $('.question').html('<h2>' + triviaQuestions[currentQuestion].question + '</h2>');
       for(var i = 0; i < 4; i++){
         var choices = $('<div>');
         choices.text(triviaQuestions[currentQuestion].incorrect_answers[i]);
         choices.attr({'data-value': triviaQuestions[currentQuestion].incorrect_answers[i]});
-        choices.addClass('m-1 thisChoice btn btn-primary dark');
+        choices.addClass('m-1 thisChoice btn btn-primary');
         $('#answerList').append(choices);
       }
-  
-  
-    countdown();
+      countdown();
+      //clicking an answer will pause the time and setup answerPage
       $('.thisChoice').on('click',function(){
         userSelect = $(this).data('value');
         clearInterval(time);
         answerPage();
       });
-  }
-
-  function countdown(){
+    }
+    
+    function countdown(){
       seconds = timer;
       $('#timeLeft').html('<h3>Time Remaining: ' + seconds + '</h3>');
       answered = true;
-      time = setInterval(showCountdown, 1000);
+      //sets timer to go down
+      time = setInterval(showCountdown, countInt);
     }
-
+    
     function showCountdown(){
       seconds--;
       $('#timeLeft').html('<h3>Time Remaining: ' + seconds + '</h3>');
@@ -173,7 +170,6 @@
       }
     }
     
-
     function answerPage(){
       $('#currentQuestion').empty();
       $('.thisChoice').empty(); //Clears question page
@@ -198,31 +194,28 @@
       }
       
       if(currentQuestion == (triviaQuestions.length-1)){
-        setTimeout(scoreboard, 3000)
+        setTimeout(scoreboard, endInt)
       } else{
         currentQuestion++;
-        setTimeout(newQuestion, 3000);
+        setTimeout(newQuestion, timeInt);
       }	
     }
-
-
-
+    
     function scoreboard(){
       $('#currentQuestion').empty();
       $('.question').empty();
       $('#timeLeft').empty();
       $('#message').empty();
       $('#correctedAnswer').empty();
-      $('#gif').empty();
-    
       $('#finalMessage').html(messages.finished);
       $('#correctAnswers').html("Correct Answers: " + correctAnswer);
       $('#incorrectAnswers').html("Incorrect Answers: " + incorrectAnswer);
       $('#unanswered').html("Unanswered: " + unanswered);
-      $('#startOverBtn').addClass('reset');
+      $('#startOverBtn').addClass('reset thisChoice btn btn-primary');
       $('#startOverBtn').show();
       $('#startOverBtn').html('Start Over?');
     }
+    
 </script>
 </body>
 
