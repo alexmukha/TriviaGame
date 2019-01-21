@@ -121,6 +121,7 @@
       $('#correctAnswers').empty();
       $('#incorrectAnswers').empty();
       $('#unanswered').empty();
+      $('#startOverBtn').hide();
       currentQuestion = 0;
       correctAnswer = 0;
       incorrectAnswer = 0;
@@ -144,7 +145,7 @@
         $('#answerList').append(choices);
       }
       countdown();
-      //clicking an answer will pause the time and setup answerPage
+      
       $('.thisChoice').on('click',function(){
         userSelect = $(this).data('value');
         clearInterval(time);
@@ -153,10 +154,10 @@
     }
     
     function countdown(){
+        $('#startOverBtn').hide();
       seconds = timer;
       $('#timeLeft').html('<h3>Time Remaining: ' + seconds + '</h3>');
       answered = true;
-      //sets timer to go down
       time = setInterval(showCountdown, countInt);
     }
     
@@ -173,7 +174,6 @@
     function answerPage(){
       $('#currentQuestion').empty();
       $('.thisChoice').empty(); //Clears question page
-      // $('.question').empty();
       $('#answerList').empty();
     
       var rightAnswerIndex = triviaQuestions[currentQuestion].correct_answer;
@@ -183,7 +183,6 @@
         $('#currentQuestion').html(messages.correct);
       } else if((userSelect != rightAnswerIndex) && (answered == true)){
         incorrectAnswer++;
-        // $('#message').html(messages.incorrect);
         $('#currentQuestion').html(messages.incorrect);
         $('#correctedAnswer').html('The correct answer was: ' + rightAnswerIndex);
       } else{
