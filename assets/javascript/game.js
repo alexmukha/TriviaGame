@@ -129,10 +129,10 @@ $(document).ready(function () {
     var rightAnswerIndex = triviaQuestions[currentQuestion].correct_answer;
     if ((userSelect == rightAnswerIndex) && (answered == true)) {
       correctAnswer++;
-      $('#currentQuestion').html('<green>' + messages.correct + '</green>');
+      $('#currentQuestion').html('<font color=\"#02a10d\"><b>' + messages.correct + '</b></font>');
     } else if ((userSelect != rightAnswerIndex) && (answered == true)) {
       incorrectAnswer++;
-      $('#currentQuestion').html('<red>' + messages.incorrect + '</red>');
+      $('#currentQuestion').html('<font color=\"red\"><b>' + messages.incorrect + '</b></font>');
       $('#correctedAnswer').html('<h3>The correct answer was: ' + rightAnswerIndex + '</h3>');
     } else {
       unanswered++;
